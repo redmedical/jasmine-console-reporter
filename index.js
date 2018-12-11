@@ -54,6 +54,11 @@ class JasmineConsoleReporter {
             failedExpectation = spec.failedExpectations[i];
             if (failedExpectation.stack) {
                 errInfo = utils.restack(failedExpectation, this.options.cleanStack, this.style);
+
+                if (failedExpectation.matcherName === "toHaveBeenCalledWith") {
+                    errInfo = errInfo.replace(/called with/, "called with\n");
+                    errInfo = errInfo.replace(/calls were/, "calls were\n");
+                }
             } else {
                 errInfo = 'Error: ' + (failedExpectation.message || 'Unknown Error');
                 errInfo = this.style.red(errInfo);
